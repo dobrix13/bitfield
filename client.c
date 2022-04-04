@@ -12,7 +12,7 @@
 
 #include "minitalk.h"
 
-static void send_bits(char c, pid_t server_pid)
+static void send_bit(char c, pid_t server_pid)
 {
 	u_int8_t tmp = c;
 	int i = 0;
@@ -20,7 +20,9 @@ static void send_bits(char c, pid_t server_pid)
 	while(i < 8)
 	{
 		if(IS_BIT_SET(tmp, i))
-			kill(server_pid)
+			kill(server_pid, SIGUSR1);
+		kill(server_pid, SIGUSR2);
+		i++;
 	}
 
 }
@@ -30,7 +32,7 @@ void send_string(char *str, pid_t server_pid)
 	int i = 0;
 	while(str[i])
 	{
-		send_bits(str[i], server_pid);
+		send_bit(str[i], server_pid);
 		i++;
 	}
 }
