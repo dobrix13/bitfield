@@ -6,7 +6,7 @@
 /*   By: avitolin <@students.42wolfsburg.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 02:21:17 by avitolin          #+#    #+#             */
-/*   Updated: 2022/04/04 13:47:54 by avitolin         ###   ########.fr       */
+/*   Updated: 2022/04/05 01:32:11 by avitolin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void psb_string(char *str)
 
 int main(void)
 {
-	char *str = "Hello world";
+	char *str = "A";
 
 	psb_string(str);
 	write(1, "\n", 1);

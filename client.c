@@ -6,47 +6,54 @@
 /*   By: avitolin <@students.42wolfsburg.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:02:05 by avitolin          #+#    #+#             */
-/*   Updated: 2022/04/04 17:31:02 by avitolin         ###   ########.fr       */
+/*   Updated: 2022/04/05 02:26:12 by avitolin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <stdio.h>
 
-static void send_bit(char c, pid_t server_pid)
+int i_x = 0;
+/*
+**	signal speed is controlled by usleep(500)
+*/
+void send_char(char c, pid_t server_pid)
 {
-	u_int8_t tmp = c;
-	int i = 0;
+	
+	ft_putchar_fd(c , 1);
+	int i = 8;
 
-	while(i < 8)
+	while(i > 0)
 	{
-		if(IS_BIT_SET(tmp, i))
+		if(IS_BIT_SET((u_int8_t)c, i))
 			kill(server_pid, SIGUSR1);
-		kill(server_pid, SIGUSR2);
-		i++;
+		else
+			kill(server_pid, SIGUSR2);
+		ft_putnbr_fd(i, 1);
+		usleep(500);
+		
+		i--;
 	}
-
 }
 
-void send_string(char *str, pid_t server_pid)
+static void send_string(char *str, pid_t server_pid)
 {
-	int i = 0;
-	while(str[i])
+	
+	while(str[i_x])
 	{
-		send_bit(str[i], server_pid);
-		i++;
+		send_char(str[i_x], server_pid);
+		i_x++;
 	}
 }
 
 int main(int argc, char **argv)
 {
-	char *str = NULL;
 	if(argc != 3)
 	{
 		ft_putendl_fd("usage...", 1);
 		return(0);
 	}
 	pid_t server_pid = ft_atoi(argv[1]);
-	str = argv[2];
-	send_string(str, server_pid);
+	send_string(argv[2], server_pid);
 	return(0);
 }
